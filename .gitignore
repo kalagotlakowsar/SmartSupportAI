@@ -1,0 +1,16 @@
+.env
+__pycache__/
+*.pyc
+
+# Test and debug files
+test_ai_coordinator.py
+test_coordinator.py
+test_gemini.py
+test_response.py
+check_tickets.py
+check_users.py
+view_tickets.py
+
+# Local database and virtual environment
+database.db
+venv/

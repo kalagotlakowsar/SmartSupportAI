@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SmartSupport AI - Agent Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100vh;
+            background: #111827;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .brand i {
+            color: #6366f1;
+            margin-right: 8px;
+        }
+
+        .nav-link {
+            color: #d1d5db;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 9px;
+            margin-bottom: 7px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .logout {
+            margin-top: 30px;
+            color: #f87171;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 250px;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .topbar {
+            height: 75px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .page-title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .agent-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .agent-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #4f46e5;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .content {
+            height: 100vh;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        /* WELCOME */
+
+        .welcome-box {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border-radius: 18px;
+            padding: 28px;
+            margin-bottom: 25px;
+        }
+
+        .welcome-box h2 {
+            font-size: 25px;
+            font-weight: 600;
+        }
+
+        .welcome-box p {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* STAT CARDS */
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 22px;
+            transition: 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        /* AGENT SECTION */
+
+        .section-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 25px;
+            height: 100%;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .agent-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px;
+            border: 1px solid #edf0f5;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .agent-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .agent-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .agent-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .agent-desc {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .online {
+            font-size: 12px;
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .online::before {
+            content: "";
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background: #22c55e;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        /* SYSTEM STATUS */
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 13px 0;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .status-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* ACTION CARDS */
+
+        .action-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 22px;
+            text-decoration: none;
+            color: #1f2937;
+            display: block;
+            transition: 0.2s;
+            height: 100%;
+        }
+
+        .action-card:hover {
+            transform: translateY(-3px);
+            border-color: #6366f1;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            margin-bottom: 14px;
+        }
+
+        .action-card h5 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .action-card p {
+            font-size: 13px;
+        }
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="brand">
+            <i class="bi bi-robot"></i>
+            SmartSupport AI
+        </div>
+
+        <a href="/agent-dashboard"
+           class="nav-link active">
+
+            <i class="bi bi-grid"></i>
+            Dashboard
+
+        </a>
+
+        <a href="/tickets"
+           class="nav-link">
+
+            <i class="bi bi-ticket-perforated"></i>
+            Tickets
+
+        </a>
+
+        <a href="/logout"
+           class="nav-link logout">
+
+            <i class="bi bi-box-arrow-right"></i>
+            Logout
+
+        </a>
+
+    </div>
+
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div class="page-title">
+                Agent Dashboard
+            </div>
+
+            <div class="agent-info">
+
+                <div>
+
+                    <strong>{{ session['username'] }}</strong>
+
+                    <br>
+
+                    <small class="text-muted">
+                        Support Agent
+                    </small>
+
+                </div>
+
+                <div class="agent-avatar">
+
+                    <i class="bi bi-headset"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="content">
+
+            <!-- WELCOME -->
+
+            <div class="welcome-box">
+
+                <h2>
+                    Welcome back, {{ session['username'] }} 👋
+                </h2>
+
+                <p>
+                    SmartSupport AI is monitoring and managing
+                    customer support requests.
+                </p>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+
+            <div class="row g-4 mb-4">
+
+                <div class="col-md-6 col-xl-2">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="bi bi-ticket-perforated"></i>
+                        </div>
+
+                        <div class="stat-number">
+                            {{ total_tickets }}
+                        </div>
+
+                        <div class="stat-label">
+                            Total Tickets
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-xl-2">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="bi bi-hourglass-split"></i>
+                        </div>
+
+                        <div class="stat-number">
+                            {{ open_tickets }}
+                        </div>
+
+                        <div class="stat-label">
+                            Open Tickets
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-xl-2">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="bi bi-arrow-repeat"></i>
+                        </div>
+
+                        <div class="stat-number">
+                            {{ in_progress_tickets }}
+                        </div>
+
+                        <div class="stat-label">
+                            In Progress
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6 col-xl-2">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="bi bi-check-circle"></i>
+                        </div>
+
+                        <div class="stat-number">
+                            {{ closed_tickets }}
+                        </div>
+
+                        <div class="stat-label">
+                            Closed Tickets
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-xl-2">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            <i class="bi bi-exclamation-triangle"></i>
+                        </div>
+
+                        <div class="stat-number">
+                            {{ high_priority }}
+                        </div>
+
+                        <div class="stat-label">
+                            High Priority</div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="section-card mt-4">
+
+    <div class="section-title">
+        <i class="bi bi-clock-history me-2"></i>
+        Recent Tickets
+    </div>
+
+    <div class="table-responsive">
+
+        <table class="table align-middle">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Issue</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Assigned To</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for ticket in recent_tickets %}
+
+                <tr>
+
+                    <td>TKT{{ ticket[0] }}</td>
+
+                    <td>{{ ticket[1] }}</td>
+
+                    <td>
+                        <span class="badge bg-primary">
+                            {{ ticket[2] }}
+                        </span>
+                    </td>
+
+                    <td>
+
+                        {% if ticket[3] == "High" %}
+                            <span class="badge bg-danger">High</span>
+                        {% else %}
+                            <span class="badge bg-success">{{ ticket[3] }}</span>
+                        {% endif %}
+
+                    </td>
+                    <td>
+                        <span class="badge bg-primary-subtle text-primary-emphasis">
+                            <i class="bi bi-person-check"></i>
+                            {{ session['username'] }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="/ticket/{{ ticket[0] }}"
+                        class="btn btn-sm btn-outline-primary">
+
+                            <i class="bi bi-eye"></i>
+                            View
+
+                        </a>
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+<br>
+
+
+
+            <!-- AI AGENTS + SYSTEM STATUS -->
+
+            <div class="row g-4 mb-4">
+
+                <!-- AGENTS -->
+
+                <div class="col-lg-8">
+
+                    <div class="section-card">
+
+                        <div class="section-title">
+                            <i class="bi bi-robot me-2"></i>
+                            AI Agent Network
+                        </div>
+
+
+                        <div class="agent-item">
+
+                            <div class="agent-left">
+
+                                <div class="agent-icon">
+                                    <i class="bi bi-search"></i>
+                                </div>
+
+                                <div>
+
+                                    <div class="agent-name">
+                                        Query Understanding Agent
+                                    </div>
+
+                                    <div class="agent-desc">
+                                        Identifies customer intent
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <span class="online">
+                                Active
+                            </span>
+
+                        </div>
+
+
+                        <div class="agent-item">
+
+                            <div class="agent-left">
+
+                                <div class="agent-icon">
+                                    <i class="bi bi-heart-pulse"></i>
+                                </div>
+
+                                <div>
+
+                                    <div class="agent-name">
+                                        Sentiment Agent
+                                    </div>
+
+                                    <div class="agent-desc">
+                                        Detects customer sentiment
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <span class="online">
+                                Active
+                            </span>
+
+                        </div>
+
+
+                        <div class="agent-item">
+
+                            <div class="agent-left">
+
+                                <div class="agent-icon">
+                                    <i class="bi bi-speedometer2"></i>
+                                </div>
+
+                                <div>
+
+                                    <div class="agent-name">
+                                        Priority Agent
+                                    </div>
+
+                                    <div class="agent-desc">
+                                        Determines ticket priority
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <span class="online">
+                                Active
+                            </span>
+
+                        </div>
+
+
+                        <div class="agent-item">
+
+                            <div class="agent-left">
+
+                                <div class="agent-icon">
+                                    <i class="bi bi-diagram-3"></i>
+                                </div>
+
+                                <div>
+
+                                    <div class="agent-name">
+                                        Coordinator Agent
+                                    </div>
+
+                                    <div class="agent-desc">
+                                        Routes requests to the correct agent
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <span class="online">
+                                Active
+                            </span>
+
+                        </div>
+
+
+                        <div class="agent-item">
+
+                            <div class="agent-left">
+
+                                <div class="agent-icon">
+                                    <i class="bi bi-database"></i>
+                                </div>
+
+                                <div>
+
+                                    <div class="agent-name">
+                                        Database Agent
+                                    </div>
+
+                                    <div class="agent-desc">
+                                        Retrieves verified order information
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <span class="online">
+                                Active
+                            </span>
+
+                        </div>
+
+
+                        <div class="agent-item">
+
+                            <div class="agent-left">
+
+                                <div class="agent-icon">
+                                    <i class="bi bi-book"></i>
+                                </div>
+
+                                <div>
+
+                                    <div class="agent-name">
+                                        Knowledge Base Agent
+                                    </div>
+
+                                    <div class="agent-desc">
+                                        Provides verified FAQ information
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <span class="online">
+                                Active
+                            </span>
+
+                        </div>
+
+
+                        <div class="agent-item">
+
+                            <div class="agent-left">
+
+                                <div class="agent-icon">
+                                    <i class="bi bi-exclamation-octagon"></i>
+                                </div>
+
+                                <div>
+
+                                    <div class="agent-name">
+                                        Escalation Agent
+                                    </div>
+
+                                    <div class="agent-desc">
+                                        Creates support tickets
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <span class="online">
+                                Active
+                            </span>
+
+                        </div>
+
+
+                        <div class="agent-item mb-0">
+
+                            <div class="agent-left">
+
+                                <div class="agent-icon">
+                                    <i class="bi bi-chat-dots"></i>
+                                </div>
+
+                                <div>
+
+                                    <div class="agent-name">
+                                        Response Agent
+                                    </div>
+
+                                    <div class="agent-desc">
+                                        Generates customer responses
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <span class="online">
+                                Active
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SYSTEM STATUS -->
+
+                <div class="col-lg-4">
+
+                    <div class="section-card">
+
+                        <div class="section-title">
+                            <i class="bi bi-activity me-2"></i>
+                            System Status
+                        </div>
+
+                        <div class="status-item">
+
+                            <span class="status-label">
+                                AI Agents
+                            </span>
+
+                            <span class="status-value text-success">
+                                Online
+                            </span>
+
+                        </div>
+
+                        <div class="status-item">
+
+                            <span class="status-label">
+                                Database
+                            </span>
+
+                            <span class="status-value text-success">
+                                Connected
+                            </span>
+
+                        </div>
+
+                        <div class="status-item">
+
+                            <span class="status-label">
+                                Ticket System
+                            </span>
+
+                            <span class="status-value text-success">
+                                Active
+                            </span>
+
+                        </div>
+
+                        <div class="status-item">
+
+                            <span class="status-label">
+                                Response Engine
+                            </span>
+
+                            <span class="status-value text-success">
+                                Ready
+                            </span>
+
+                        </div>
+
+                        <div class="status-item">
+
+                            <span class="status-label">
+                                Support Mode
+                            </span>
+
+                            <span class="status-value">
+                                24/7
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SUPPORT TOOLS -->
+
+            <div class="section-title mt-4 mb-3">
+                Support Tools
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <a href="/tickets"
+                       class="action-card">
+
+                        <div class="action-icon">
+                            <i class="bi bi-ticket-perforated"></i>
+                        </div>
+
+                        <h5>
+                            Manage Tickets
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            View customer issues, check priorities,
+                            review ticket details and close resolved tickets.
+                        </p>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <a href="/tickets"
+                       class="action-card">
+
+                        <div class="action-icon">
+                            <i class="bi bi-search"></i>
+                        </div>
+
+                        <h5>
+                            Find Customer Issues
+                        </h5>
+
+                        <p class="text-muted mb-0">
+                            Search support tickets and quickly identify
+                            customer problems that need attention.
+                        </p>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

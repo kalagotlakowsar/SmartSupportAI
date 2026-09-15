@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Analytics - SmartSupport AI</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+          rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background: #f5f7fb;
+        font-family: Arial, sans-serif;
+        animation: pageFade 0.7s ease;
+    }
+
+    /* PAGE LOAD */
+
+    @keyframes pageFade {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+    /* TOP BAR */
+
+    .topbar {
+        background: white;
+        padding: 18px 30px;
+        border-bottom: 1px solid #e5e7eb;
+        animation: slideDown 0.6s ease;
+    }
+
+    .brand {
+        font-size: 22px;
+        font-weight: bold;
+        transition: 0.3s ease;
+    }
+
+    .brand:hover {
+        transform: translateX(5px);
+    }
+
+    .brand i {
+        transition: transform 0.4s ease;
+    }
+
+    .brand:hover i {
+        transform: rotate(12deg) scale(1.1);
+    }
+
+    .subtitle {
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+
+    /* DASHBOARD BUTTON */
+
+    .topbar .btn {
+        transition: all 0.3s ease;
+    }
+
+    .topbar .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+    }
+
+
+    /* SECTION */
+
+    .section-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .container-fluid > .mb-4 {
+        animation: slideUp 0.6s ease;
+    }
+
+
+    /* STAT CARDS */
+
+    .stat-card {
+        border: none;
+        border-radius: 16px;
+        background: white;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+
+        animation: slideUp 0.7s ease both;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.10) !important;
+    }
+
+
+    /* DIFFERENT CARD DELAYS */
+
+    .row .stat-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+
+    .row .stat-card:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .row .stat-card:nth-child(3) {
+        animation-delay: 0.3s;
+    }
+
+    .row .stat-card:nth-child(4) {
+        animation-delay: 0.4s;
+    }
+
+
+    /* ICON BOX */
+
+    .icon-box {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 22px;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+    .stat-card:hover .icon-box {
+        transform: rotate(8deg) scale(1.1);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.10);
+    }
+
+
+    /* NUMBERS */
+
+    .number {
+        font-size: 30px;
+        font-weight: bold;
+        margin-top: 10px;
+
+        transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover .number {
+        transform: scale(1.08);
+    }
+
+    .label {
+        color: #6b7280;
+        font-size: 14px;
+    }
+
+
+    /* CHART CARDS */
+
+    .chart-card {
+        border: none;
+        border-radius: 16px;
+        background: white;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+
+        animation: slideUp 0.8s ease both;
+    }
+
+    .chart-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .chart-title {
+        font-weight: bold;
+        font-size: 17px;
+    }
+
+
+    /* AI AGENT CARD */
+
+    .agent-card {
+        border: none;
+        border-radius: 16px;
+        background: white;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+
+        animation: slideUp 0.9s ease both;
+    }
+
+    .agent-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08) !important;
+    }
+
+
+    /* AGENT ITEMS */
+
+    .agent-item {
+        padding: 14px;
+        border-bottom: 1px solid #eeeeee;
+
+        transition:
+            background 0.3s ease,
+            transform 0.3s ease;
+    }
+
+    .agent-item:last-child {
+        border-bottom: none;
+    }
+
+    .agent-item:hover {
+        background: #f8fafc;
+        transform: translateX(6px);
+    }
+
+
+    /* AGENT ICON */
+
+    .agent-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+    .agent-item:hover .agent-icon {
+        transform: scale(1.12) rotate(5deg);
+        box-shadow: 0 5px 12px rgba(0, 0, 0, 0.10);
+    }
+
+
+    /* BADGES */
+
+    .badge {
+        transition: transform 0.3s ease;
+    }
+
+    .agent-item:hover .badge {
+        transform: scale(1.08);
+    }
+
+
+    /* SYSTEM STATUS */
+
+    .agent-card .d-flex {
+        transition:
+            transform 0.3s ease,
+            background 0.3s ease;
+
+        padding: 7px;
+        border-radius: 8px;
+    }
+
+    .agent-card .d-flex:hover {
+        background: #f8fafc;
+        transform: translateX(5px);
+    }
+
+
+    /* CHART ANIMATION */
+
+    canvas {
+        animation: chartAppear 1s ease;
+    }
+
+    @keyframes chartAppear {
+        from {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+
+    /* MOBILE */
+
+    @media (max-width: 768px) {
+
+        .topbar {
+            padding: 15px;
+        }
+
+        .brand {
+            font-size: 19px;
+        }
+
+        .container-fluid {
+            padding: 15px !important;
+        }
+
+        .stat-card:hover,
+        .chart-card:hover,
+        .agent-card:hover {
+            transform: translateY(-3px);
+        }
+
+    }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- TOP BAR -->
+
+<div class="topbar">
+
+    <div class="container-fluid">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+
+                <div class="brand">
+
+                    <i class="bi bi-robot"></i>
+
+                    SmartSupport AI
+
+                </div>
+
+                <div class="subtitle">
+
+                    AI Customer Support Analytics
+
+                </div>
+
+            </div>
+
+
+            <a href="/dashboard"
+               class="btn btn-outline-primary">
+
+                <i class="bi bi-speedometer2"></i>
+
+                Dashboard
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="container-fluid p-4">
+
+
+    <!-- TITLE -->
+
+    <div class="mb-4">
+
+        <h3 class="section-title">
+
+            Analytics Overview
+
+        </h3>
+
+        <p class="text-muted">
+
+            Monitor customer support performance and ticket activity.
+
+        </p>
+
+    </div>
+
+
+    <!-- STAT CARDS -->
+
+    <div class="row g-4">
+
+
+        <!-- TOTAL -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card stat-card shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <div class="label">
+
+                                Total Tickets
+
+                            </div>
+
+                            <div class="number">
+
+                                {{ total_tickets }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="icon-box bg-primary-subtle text-primary">
+
+                            <i class="bi bi-ticket-perforated"></i>
+
+                        </div>
+
+                    </div>
+
+                    <small class="text-muted">
+
+                        All support requests
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- OPEN -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card stat-card shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <div class="label">
+
+                                Open Tickets
+
+                            </div>
+
+                            <div class="number">
+
+                                {{ open_tickets }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="icon-box bg-warning-subtle text-warning">
+
+                            <i class="bi bi-folder2-open"></i>
+
+                        </div>
+
+                    </div>
+
+                    <small class="text-muted">
+
+                        Waiting for support
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- IN PROGRESS -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card stat-card shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <div class="label">
+
+                                In Progress
+
+                            </div>
+
+                            <div class="number">
+
+                                {{ in_progress_tickets }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="icon-box bg-info-subtle text-info">
+
+                            <i class="bi bi-arrow-repeat"></i>
+
+                        </div>
+
+                    </div>
+
+                    <small class="text-muted">
+
+                        Currently being handled
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CLOSED -->
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card stat-card shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <div class="label">
+
+                                Closed Tickets
+
+                            </div>
+
+                            <div class="number">
+
+                                {{ closed_tickets }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="icon-box bg-success-subtle text-success">
+
+                            <i class="bi bi-check-circle"></i>
+
+                        </div>
+
+                    </div>
+
+                    <small class="text-muted">
+
+                        Successfully resolved
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- HIGH PRIORITY -->
+
+    <div class="row mt-4">
+
+        <div class="col-xl-3 col-md-6">
+
+            <div class="card stat-card shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between">
+
+                        <div>
+
+                            <div class="label">
+
+                                High Priority
+
+                            </div>
+
+                            <div class="number">
+
+                                {{ high_priority }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="icon-box bg-danger-subtle text-danger">
+
+                            <i class="bi bi-exclamation-triangle"></i>
+
+                        </div>
+
+                    </div>
+
+                    <small class="text-muted">
+
+                        Requires attention
+
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CHARTS -->
+
+    <div class="row g-4 mt-2">
+
+
+        <!-- STATUS CHART -->
+
+        <div class="col-lg-5">
+
+            <div class="card chart-card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="chart-title mb-3">
+
+                        <i class="bi bi-pie-chart"></i>
+
+                        Ticket Status
+
+                    </div>
+
+                    <div style="height:300px;">
+
+                        <canvas id="ticketPieChart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- BAR CHART -->
+
+        <div class="col-lg-7">
+
+            <div class="card chart-card shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <div class="chart-title mb-3">
+
+                        <i class="bi bi-bar-chart"></i>
+
+                        Ticket Statistics
+
+                    </div>
+
+                    <div style="height:300px;">
+
+                        <canvas id="ticketBarChart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- AI AGENTS -->
+
+    <div class="row g-4 mt-2">
+
+
+        <div class="col-lg-8">
+
+            <div class="card agent-card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="chart-title mb-3">
+
+                        <i class="bi bi-cpu"></i>
+
+                        AI Agent Activity
+
+                    </h5>
+
+
+                    <div class="agent-item d-flex align-items-center">
+
+                        <div class="agent-icon bg-primary-subtle text-primary me-3">
+
+                            <i class="bi bi-search"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>Query Understanding Agent</strong>
+
+                            <div class="text-muted small">
+
+                                Identifies customer intent and extracts important information.
+
+                            </div>
+
+                        </div>
+
+                        <span class="badge bg-success ms-auto">
+
+                            Active
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="agent-item d-flex align-items-center">
+
+                        <div class="agent-icon bg-info-subtle text-info me-3">
+
+                            <i class="bi bi-book"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>Knowledge Base Agent</strong>
+
+                            <div class="text-muted small">
+
+                                Finds relevant answers from the support knowledge base.
+
+                            </div>
+
+                        </div>
+
+                        <span class="badge bg-success ms-auto">
+
+                            Active
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="agent-item d-flex align-items-center">
+
+                        <div class="agent-icon bg-success-subtle text-success me-3">
+
+                            <i class="bi bi-chat-dots"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>Response Agent</strong>
+
+                            <div class="text-muted small">
+
+                                Generates helpful responses for customers.
+
+                            </div>
+
+                        </div>
+
+                        <span class="badge bg-success ms-auto">
+
+                            Active
+
+                        </span>
+
+                    </div>
+
+
+                    <div class="agent-item d-flex align-items-center">
+
+                        <div class="agent-icon bg-danger-subtle text-danger me-3">
+
+                            <i class="bi bi-arrow-up-circle"></i>
+
+                        </div>
+
+                        <div>
+
+                            <strong>Escalation Agent</strong>
+
+                            <div class="text-muted small">
+
+                                Escalates complex or high-priority customer issues.
+
+                            </div>
+
+                        </div>
+
+                        <span class="badge bg-success ms-auto">
+
+                            Active
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SYSTEM STATUS -->
+
+        <div class="col-lg-4">
+
+            <div class="card agent-card shadow-sm">
+
+                <div class="card-body">
+
+                    <h5 class="chart-title mb-4">
+
+                        <i class="bi bi-activity"></i>
+
+                        System Status
+
+                    </h5>
+
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>AI System</span>
+
+                        <span class="badge bg-success">Online</span>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>Database</span>
+
+                        <span class="badge bg-success">Connected</span>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between mb-3">
+
+                        <span>Ticket System</span>
+
+                        <span class="badge bg-success">Operational</span>
+
+                    </div>
+
+
+                    <div class="d-flex justify-content-between">
+
+                        <span>AI Agents</span>
+
+                        <span class="badge bg-success">Active</span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- CHARTS -->
+
+<script>
+
+
+/* PIE / DOUGHNUT CHART */
+
+const pieCtx =
+    document.getElementById('ticketPieChart');
+
+
+new Chart(pieCtx, {
+
+    type: 'doughnut',
+
+    data: {
+
+        labels: [
+
+            'Open',
+            'In Progress',
+            'Closed'
+
+        ],
+
+        datasets: [{
+
+            data: [
+
+                {{ open_tickets }},
+                {{ in_progress_tickets }},
+                {{ closed_tickets }}
+
+            ],
+
+            borderWidth: 2
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        plugins: {
+
+            legend: {
+
+                position: 'bottom'
+
+            }
+
+        }
+
+    }
+
+});
+
+
+/* BAR CHART */
+
+const barCtx =
+    document.getElementById('ticketBarChart');
+
+
+new Chart(barCtx, {
+
+    type: 'bar',
+
+    data: {
+
+        labels: [
+
+            'Total',
+            'Open',
+            'In Progress',
+            'Closed',
+            'High Priority'
+
+        ],
+
+        datasets: [{
+
+            label: 'Tickets',
+
+            data: [
+
+                {{ total_tickets }},
+                {{ open_tickets }},
+                {{ in_progress_tickets }},
+                {{ closed_tickets }},
+                {{ high_priority }}
+
+            ],
+
+            borderWidth: 1
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        scales: {
+
+            y: {
+
+                beginAtZero: true,
+
+                ticks: {
+
+                    stepSize: 1
+
+                }
+
+            }
+
+        },
+
+        plugins: {
+
+            legend: {
+
+                display: false
+
+            }
+
+        }
+
+    }
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Profile - SmartSupport AI</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 240px;
+            height: 100vh;
+            background: #111827;
+            padding: 25px 15px;
+        }
+
+        .brand {
+            color: white;
+            font-size: 21px;
+            font-weight: 700;
+            padding: 0 12px 30px;
+        }
+
+        .brand i {
+            margin-right: 8px;
+            color: #818cf8;
+        }
+
+        .menu-title {
+            color: #6b7280;
+            font-size: 11px;
+            text-transform: uppercase;
+            margin: 15px 12px 8px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #9ca3af;
+            text-decoration: none;
+            padding: 12px;
+            margin-bottom: 5px;
+            border-radius: 9px;
+            transition: 0.3s;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active {
+            background: #1f2937;
+            color: white;
+            transform: translateX(3px);
+        }
+
+        .sidebar a i {
+            font-size: 18px;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 240px;
+            min-height: 100vh;
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+            height: 70px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 30px;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #4f46e5;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-text strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .admin-text span {
+            font-size: 11px;
+            color: #6b7280;
+        }
+
+        /* CONTENT */
+
+        .content {
+            padding: 35px;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h2 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            color: #6b7280;
+            margin: 0;
+        }
+
+        /* CARD */
+
+        .profile-card {
+            max-width: 850px;
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            animation: slideUp 0.5s ease;
+        }
+
+        .profile-top {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-picture {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #eef2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid #e0e7ff;
+        }
+
+        .profile-picture img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-picture i {
+            font-size: 40px;
+            color: #4f46e5;
+        }
+
+        .profile-top h5 {
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .profile-top p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* FORM */
+
+        .form-label {
+            font-weight: 500;
+            font-size: 13px;
+        }
+
+        .form-control {
+            border-radius: 9px;
+            padding: 11px 13px;
+            border: 1px solid #d1d5db;
+        }
+
+        .form-control:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.12);
+        }
+
+        .email-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .verify-btn {
+            white-space: nowrap;
+            border: none;
+            border-radius: 9px;
+            padding: 0 18px;
+            background: #eef2ff;
+            color: #4f46e5;
+            font-weight: 600;
+        }
+
+        .verify-btn:hover {
+            background: #e0e7ff;
+        }
+
+        .verification-status {
+            margin-top: 7px;
+            font-size: 12px;
+            color: #16a34a;
+        }
+
+        .picture-label {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* BUTTONS */
+
+        .buttons {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-cancel {
+            border: 1px solid #d1d5db;
+            background: white;
+            color: #374151;
+            border-radius: 9px;
+            padding: 10px 20px;
+            text-decoration: none;
+        }
+
+        .btn-save {
+            border: none;
+            background: #4f46e5;
+            color: white;
+            border-radius: 9px;
+            padding: 10px 22px;
+            font-weight: 500;
+        }
+
+        .btn-save:hover {
+            background: #4338ca;
+        }
+
+        /* ANIMATION */
+
+        @keyframes slideUp {
+
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 70px;
+            }
+
+            .brand {
+                font-size: 0;
+            }
+
+            .brand i {
+                font-size: 22px;
+            }
+
+            .sidebar a span,
+            .menu-title {
+                display: none;
+            }
+
+            .main {
+                margin-left: 70px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .email-box {
+                flex-direction: column;
+            }
+
+            .verify-btn {
+                padding: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+    <div class="brand">
+
+        <i class="bi bi-stars"></i>
+
+        SmartSupport AI
+
+    </div>
+
+
+    <div class="menu-title">
+        Main
+    </div>
+
+
+    <a href="/dashboard">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+    </a>
+
+
+    <a href="/tickets">
+        <i class="bi bi-ticket-perforated"></i>
+        <span>Tickets</span>
+    </a>
+
+
+    <a href="/analytics">
+        <i class="bi bi-bar-chart"></i>
+        <span>Analytics</span>
+    </a>
+
+
+    <a href="/agent-dashboard">
+        <i class="bi bi-robot"></i>
+        <span>Agent Dashboard</span>
+    </a>
+
+
+    <a href="/users">
+        <i class="bi bi-people"></i>
+        <span>User Management</span>
+    </a>
+
+
+    <div class="menu-title">
+        System
+    </div>
+
+
+    <a href="/settings">
+        <i class="bi bi-gear"></i>
+        <span>Settings</span>
+    </a>
+
+
+    <a href="/logout">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+    </a>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div class="admin-info">
+
+            <div class="admin-avatar">
+                <i class="bi bi-person"></i>
+            </div>
+
+            <div class="admin-text">
+
+                <strong>
+                    {{ session.get('username', 'Admin') }}
+                </strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <div class="page-header">
+
+            <h2>
+                Edit Profile
+            </h2>
+
+            <p>
+                Update your administrator account information.
+            </p>
+
+        </div>
+
+
+        <div class="profile-card">
+
+
+            <!-- PROFILE TOP -->
+
+            <div class="profile-top">
+
+
+                <div class="profile-picture">
+
+                    {% if user[3] %}
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/' + user[3]) }}"
+                        alt="Profile Picture">
+
+                    {% else %}
+
+                    <i class="bi bi-person"></i>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div>
+
+                    <h5>
+                        {{ user[0] }}
+                    </h5>
+
+                    <p>
+                        Administrator Account
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- FORM -->
+
+            <form
+                method="POST"
+                action="/update-admin-profile"
+                enctype="multipart/form-data">
+
+
+                <div class="row g-4">
+
+
+                    <!-- USERNAME -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Username
+                        </label>
+
+                        <input
+                            type="text"
+                            name="username"
+                            class="form-control"
+                            value="{{ user[0] }}"
+                            required>
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="text"
+                            name="phone"
+                            class="form-control"
+                            value="{{ user[2] or '' }}"
+                            placeholder="Enter phone number">
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+                            Email Address
+                        </label>
+
+                        <div class="email-box">
+
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                class="form-control"
+                                value="{{ user[1] or '' }}"
+                                required>
+
+                            <button
+                                type="button"
+                                class="verify-btn"
+                                id="verifyEmailBtn">
+
+                                <i class="bi bi-shield-check"></i>
+                                Verify
+
+                            </button>
+
+                        </div>
+
+                        <div
+                            id="verificationStatus"
+                            class="verification-status">
+                        </div>
+
+
+                        <!-- OTP BOX -->
+
+                        <div
+                            id="otpBox"
+                            style="
+                                display:none;
+                                margin-top:15px;
+                            ">
+
+                            <label class="form-label">
+                                Enter OTP
+                            </label>
+
+                            <div class="email-box">
+
+                                <input
+                                    type="text"
+                                    id="emailOtp"
+                                    class="form-control"
+                                    placeholder="Enter 6-digit OTP"
+                                    maxlength="6">
+
+                                <button
+                                    type="button"
+                                    class="verify-btn"
+                                    id="confirmOtpBtn">
+
+                                    <i class="bi bi-check-circle"></i>
+                                    Confirm OTP
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PROFILE PICTURE -->
+
+                    <div class="col-12">
+
+                        <label class="form-label">
+                            Profile Picture
+                        </label>
+
+                        <input
+                            type="file"
+                            name="profile_picture"
+                            class="form-control"
+                            accept="image/*">
+
+                        <div class="picture-label">
+
+                            JPG, PNG or JPEG image recommended.
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="buttons">
+
+                    <a
+                        href="/settings"
+                        class="btn-cancel">
+
+                        Cancel
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="btn-save">
+
+                        <i class="bi bi-check-circle"></i>
+
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const verifyEmailBtn =
+        document.getElementById(
+            "verifyEmailBtn"
+        );
+
+    const confirmOtpBtn =
+        document.getElementById(
+            "confirmOtpBtn"
+        );
+
+    const emailInput =
+        document.getElementById(
+            "email"
+        );
+
+    const otpBox =
+        document.getElementById(
+            "otpBox"
+        );
+
+    const otpInput =
+        document.getElementById(
+            "emailOtp"
+        );
+
+    const status =
+        document.getElementById(
+            "verificationStatus"
+        );
+
+
+    // SEND OTP
+
+    verifyEmailBtn.addEventListener(
+        "click",
+        async function() {
+
+            const email =
+                emailInput.value.trim();
+
+            if (!email) {
+
+                status.innerHTML =
+                    "Please enter an email address.";
+
+                status.style.color = "#dc2626";
+
+                return;
+            }
+
+
+            verifyEmailBtn.disabled = true;
+
+            verifyEmailBtn.innerHTML =
+                '<i class="bi bi-hourglass-split"></i> Sending...';
+
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                "email",
+                email
+            );
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/send-profile-email-otp",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (data.success) {
+
+                    status.innerHTML =
+                        data.message;
+
+                    status.style.color =
+                        "#16a34a";
+
+                    otpBox.style.display =
+                        "block";
+
+                } else {
+
+                    status.innerHTML =
+                        data.message;
+
+                    status.style.color =
+                        "#dc2626";
+
+                }
+
+            } catch (error) {
+
+                status.innerHTML =
+                    "Unable to send OTP.";
+
+                status.style.color =
+                    "#dc2626";
+
+            }
+
+
+            verifyEmailBtn.disabled = false;
+
+            verifyEmailBtn.innerHTML =
+                '<i class="bi bi-shield-check"></i> Verify';
+
+        }
+    );
+
+
+    // VERIFY OTP
+
+    confirmOtpBtn.addEventListener(
+        "click",
+        async function() {
+
+            const otp =
+                otpInput.value.trim();
+
+
+            if (!otp) {
+
+                status.innerHTML =
+                    "Please enter the OTP.";
+
+                status.style.color =
+                    "#dc2626";
+
+                return;
+            }
+
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                "otp",
+                otp
+            );
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/verify-profile-email",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                if (data.success) {
+
+                    status.innerHTML =
+                        "✓ Email verified successfully.";
+
+                    status.style.color =
+                        "#16a34a";
+
+                    emailInput.readOnly =
+                        true;
+
+                    verifyEmailBtn.disabled =
+                        true;
+
+                    verifyEmailBtn.innerHTML =
+                        '<i class="bi bi-check-circle"></i> Verified';
+
+                    otpBox.style.display =
+                        "none";
+
+                } else {
+
+                    status.innerHTML =
+                        data.message;
+
+                    status.style.color =
+                        "#dc2626";
+
+                }
+
+            } catch (error) {
+
+                status.innerHTML =
+                    "Unable to verify OTP.";
+
+                status.style.color =
+                    "#dc2626";
+
+            }
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>

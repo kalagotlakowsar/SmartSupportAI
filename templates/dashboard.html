@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SmartSupport AI - Admin Dashboard</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background: #111827;
+            color: white;
+            padding: 25px 18px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .brand-icon {
+            width: 40px;
+            height: 40px;
+            background: #4f46e5;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .menu-title {
+            font-size: 10px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 15px 10px 10px;
+        }
+
+        .nav-link {
+            color: #cbd5e1;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .nav-link i {
+            font-size: 17px;
+        }
+
+        .logout {
+            margin-top: auto;
+            color: #f87171;
+        }
+
+        .logout:hover {
+            background: #3f1d1d;
+            color: #fca5a5;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            flex: 1;
+            min-width: 0;
+            margin-left: 250px;
+        }
+
+        .topbar {
+            height: 75px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .page-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .top-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .notification {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-info strong {
+            font-size: 13px;
+        }
+
+        .admin-info small {
+            font-size: 10px;
+        }
+
+        .admin-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #4f46e5;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content {
+            padding: 30px;
+        }
+
+        .welcome-box {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border-radius: 18px;
+            padding: 28px 30px;
+            margin-bottom: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-box::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            right: -40px;
+            top: -60px;
+        }
+
+        .welcome-box h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .welcome-box p {
+            margin: 0;
+            opacity: 0.85;
+            font-size: 13px;
+        }
+
+        /* ================= STATS ================= */
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 21px;
+            height: 100%;
+            transition: 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 18px;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        /* ================= SECTION ================= */
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin: 30px 0 15px;
+        }
+
+        /* ================= ACTION CARDS ================= */
+
+        .action-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 22px;
+            height: 100%;
+            text-decoration: none;
+            color: #1f2937;
+            display: block;
+            transition: 0.2s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+            border-color: #6366f1;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #eef2ff;
+            color: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            margin-bottom: 15px;
+        }
+
+        .action-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .action-text {
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        /* ================= SYSTEM STATUS ================= */
+
+        .status-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 22px;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 12px;
+        }
+
+        .status-row:last-child {
+            border-bottom: none;
+        }
+
+        .online-status {
+            color: #16a34a;
+            font-weight: 500;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 210px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .content {
+                padding: 15px;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .welcome-box h2 {
+                font-size: 20px;
+            }
+
+        }
+        .profile-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eef2ff;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                <i class="bi bi-robot"></i>
+            </div>
+
+            SmartSupport AI
+
+        </div>
+
+
+        <div class="menu-title">
+            Main Menu
+        </div>
+
+
+        <a href="/dashboard"
+           class="nav-link active">
+
+            <i class="bi bi-grid"></i>
+            Dashboard
+
+        </a>
+
+
+        <a href="/tickets"
+           class="nav-link">
+
+            <i class="bi bi-ticket-perforated"></i>
+            Tickets
+
+        </a>
+
+
+        <a href="/analytics"
+           class="nav-link">
+
+            <i class="bi bi-bar-chart"></i>
+            Analytics
+
+        </a>
+
+
+        <a href="/agent-dashboard"
+           class="nav-link">
+
+            <i class="bi bi-headset"></i>
+            Agent Dashboard
+
+        </a>
+
+
+        <a href="/users"
+           class="nav-link">
+
+            <i class="bi bi-people"></i>
+            Users
+
+        </a>
+
+
+        <div class="menu-title">
+            System
+        </div>
+
+
+        <a href="/settings"
+           class="nav-link">
+
+            <i class="bi bi-gear"></i>
+            Settings
+
+        </a>
+
+
+        <a href="/logout"
+           class="nav-link logout">
+
+            <i class="bi bi-box-arrow-right"></i>
+            Logout
+
+        </a>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="page-title">
+                Admin Dashboard
+            </div>
+
+
+            <div class="top-right">
+
+                <div class="dropdown">
+
+                    <button
+                        class="notification position-relative"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+
+                        <i class="bi bi-bell"></i>
+
+                        {% if notifications %}
+
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+
+                                {{ notifications|length }}
+
+                            </span>
+
+                        {% endif %}
+
+                    </button>
+
+
+                    <div
+                        class="dropdown-menu dropdown-menu-end shadow border-0"
+                        style="
+                            width:340px;
+                            border-radius:14px;
+                            padding:10px;
+                        ">
+
+                        <div class="px-3 py-2">
+
+                            <strong>
+                                Notifications
+                            </strong>
+
+                            <small class="text-muted d-block">
+                                High-priority support tickets
+                            </small>
+
+                        </div>
+
+
+                        {% if notifications %}
+
+                            {% for notification in notifications %}
+
+                                <a
+                                    href="/read-notification/{{ notification[0] }}"
+                                    class="dropdown-item rounded-3 py-3">
+
+                                    <div class="d-flex align-items-center">
+
+                                        <div
+                                            class="me-3"
+                                            style="
+                                                width:38px;
+                                                height:38px;
+                                                border-radius:10px;
+                                                background:#fee2e2;
+                                                color:#dc2626;
+                                                display:flex;
+                                                align-items:center;
+                                                justify-content:center;
+                                            ">
+
+                                            <i class="bi bi-exclamation-triangle"></i>
+
+                                        </div>
+
+
+                                        <div>
+
+                                            <strong class="d-block">
+                                                High Priority Ticket
+                                            </strong>
+
+                                            <small class="text-muted">
+                                                TKT{{ notification[0] }}
+                                                • {{ notification[1] }}
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </a>
+
+                            {% endfor %}
+
+                        {% else %}
+
+                            <div class="text-center py-4">
+
+                                <i
+                                    class="bi bi-bell-slash"
+                                    style="
+                                        font-size:28px;
+                                        color:#9ca3af;
+                                    ">
+                                </i>
+
+                                <p class="text-muted mb-0 mt-2">
+                                    No new notifications
+                                </p>
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-info">
+
+                    <div>
+
+                        <strong>
+                            Admin
+                        </strong>
+
+                        <br>
+
+                        <small class="text-muted">
+                            Administrator
+                        </small>
+
+                    </div>
+
+
+                    <div class="profile-avatar">
+
+                        {% if profile_picture %}
+
+                            <img
+                                src="{{ url_for('static', filename='uploads/' + profile_picture) }}"
+                                alt="Profile Picture">
+
+                        {% else %}
+
+                            <i class="bi bi-person"></i>
+
+                        {% endif %}
+
+                    </div>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <div class="content">
+
+
+            <!-- WELCOME -->
+
+            <div class="welcome-box">
+
+                <h2>
+                    Welcome back, Admin 👋
+                </h2>
+
+                <p>
+                    Monitor SmartSupport AI and manage your customer support operations.
+                </p>
+
+            </div>
+
+
+            <!-- ================= STATS ================= -->
+
+            <div class="row g-4">
+
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <div class="stat-icon">
+
+                                <i class="bi bi-ticket-perforated"></i>
+
+                            </div>
+
+                            <span class="status-dot"></span>
+
+                        </div>
+
+                        <div class="stat-number">
+
+                            {{ total_tickets|default(0) }}
+
+                        </div>
+
+                        <div class="stat-label">
+                            Total Support Tickets
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <div class="stat-icon">
+
+                                <i class="bi bi-hourglass-split"></i>
+
+                            </div>
+
+                            <span class="status-dot"></span>
+
+                        </div>
+
+                        <div class="stat-number">
+
+                            {{ open_tickets|default(0) }}
+
+                        </div>
+
+                        <div class="stat-label">
+                            Currently Open
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <div class="stat-icon">
+
+                                <i class="bi bi-check-circle"></i>
+
+                            </div>
+
+                        </div>
+
+                        <div class="stat-number">
+
+                            {{ closed_tickets|default(0) }}
+
+                        </div>
+
+                        <div class="stat-label">
+                            Resolved Tickets
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="col-md-6 col-xl-3">
+
+                    <div class="stat-card">
+
+                        <div class="stat-top">
+
+                            <div class="stat-icon">
+
+                                <i class="bi bi-exclamation-triangle"></i>
+
+                            </div>
+
+                        </div>
+
+                        <div class="stat-number">
+
+                            {{ high_priority|default(0) }}
+
+                        </div>
+
+                        <div class="stat-label">
+                            High Priority Tickets
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= QUICK ACTIONS ================= -->
+
+            <div class="section-title">
+                Quick Actions
+            </div>
+
+
+            <div class="row g-4">
+
+
+                <div class="col-md-6 col-lg-3">
+
+                    <a href="/tickets"
+                       class="action-card">
+
+                        <div class="action-icon">
+
+                            <i class="bi bi-ticket-perforated"></i>
+
+                        </div>
+
+                        <div class="action-title">
+                            Manage Tickets
+                        </div>
+
+                        <div class="action-text">
+                            View, search and manage customer support requests.
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-md-6 col-lg-3">
+
+                    <a href="/analytics"
+                       class="action-card">
+
+                        <div class="action-icon">
+
+                            <i class="bi bi-graph-up"></i>
+
+                        </div>
+
+                        <div class="action-title">
+                            Analytics
+                        </div>
+
+                        <div class="action-text">
+                            Monitor ticket statistics and support performance.
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-md-6 col-lg-3">
+
+                    <a href="/agent-dashboard"
+                       class="action-card">
+
+                        <div class="action-icon">
+
+                            <i class="bi bi-headset"></i>
+
+                        </div>
+
+                        <div class="action-title">
+                            Agent Dashboard
+                        </div>
+
+                        <div class="action-text">
+                            Monitor AI agents and support operations.
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                <div class="col-md-6 col-lg-3">
+
+                    <a href="/users"
+                       class="action-card">
+
+                        <div class="action-icon">
+
+                            <i class="bi bi-people"></i>
+
+                        </div>
+
+                        <div class="action-title">
+                            User Management
+                        </div>
+
+                        <div class="action-text">
+                            View registered customers and system users.
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- ================= RECENT TICKETS ================= -->
+
+<div class="section-title">
+    Recent Tickets
+</div>
+
+<div class="status-card">
+
+    {% if recent_tickets %}
+
+        <div class="table-responsive">
+
+            <table class="table align-middle mb-0">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Ticket</th>
+                        <th>Issue</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for ticket in recent_tickets %}
+
+                    <tr>
+
+                        <td>
+                            <strong>
+                                TKT{{ ticket[0] }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            {{ ticket[1] }}
+                        </td>
+
+                        <td>
+
+                            {% if ticket[2] == 'Open' %}
+
+                                <span class="badge bg-success">
+                                    Open
+                                </span>
+
+                            {% elif ticket[2] == 'Closed' %}
+
+                                <span class="badge bg-secondary">
+                                    Closed
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-primary">
+                                    {{ ticket[2] }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {% if ticket[3] == 'High' %}
+
+                                <span class="badge bg-danger">
+                                    High
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-light text-dark">
+                                    Normal
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="/ticket/{{ ticket[0] }}"
+                                class="btn btn-sm btn-outline-primary">
+
+                                View
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    {% else %}
+
+        <div class="text-center py-4">
+
+            <i
+                class="bi bi-ticket-perforated"
+                style="font-size:35px;color:#9ca3af;">
+            </i>
+
+            <p class="text-muted mt-2 mb-0">
+                No tickets available
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+            <!-- ================= RECENT ACTIVITY ================= -->
+
+<div class="section-title">
+    Recent Activity
+</div>
+
+<div class="status-card">
+
+    {% if activities %}
+
+        {% for activity in activities %}
+
+        <div class="status-row">
+
+            <span>
+
+                {% if activity[3] == 'High' %}
+
+                    <i class="bi bi-exclamation-circle me-2"
+                       style="color:#dc2626;"></i>
+
+                    High-priority ticket detected
+
+                {% elif activity[2] == 'Closed' %}
+
+                    <i class="bi bi-check-circle me-2"
+                       style="color:#16a34a;"></i>
+
+                    Ticket resolved
+
+                {% elif activity[2] == 'Open' %}
+
+                    <i class="bi bi-ticket-perforated me-2"
+                       style="color:#4f46e5;"></i>
+
+                    New support ticket
+
+                {% else %}
+
+                    <i class="bi bi-gear me-2"
+                       style="color:#2563eb;"></i>
+
+                    Ticket updated
+
+                {% endif %}
+
+            </span>
+
+            <span class="text-muted">
+
+                TKT{{ activity[0] }}
+
+            </span>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="text-center py-3 text-muted">
+
+            <i class="bi bi-clock-history"></i>
+
+            No recent activity
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+            <!-- ================= SYSTEM STATUS ================= -->
+
+            <div class="section-title">
+                System Status
+            </div>
+
+
+            <div class="status-card">
+
+                <div class="status-row">
+
+                    <span>
+                        <i class="bi bi-robot me-2"></i>
+                        AI Agent Network
+                    </span>
+
+                    <span class="online-status">
+                        <span class="status-dot"></span>
+                        Online
+                    </span>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <span>
+                        <i class="bi bi-database me-2"></i>
+                        Database
+                    </span>
+
+                    <span class="online-status">
+                        Connected
+                    </span>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <span>
+                        <i class="bi bi-ticket-perforated me-2"></i>
+                        Ticket Management
+                    </span>
+
+                    <span class="online-status">
+                        Active
+                    </span>
+
+                </div>
+
+
+                <div class="status-row">
+
+                    <span>
+                        <i class="bi bi-cpu me-2"></i>
+                        AI Response Engine
+                    </span>
+
+                    <span class="online-status">
+                        Ready
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+</body>
+
+</html>

@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SmartSupport AI</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 245px;
+            background: #111827;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 35px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 11px;
+            background: #4f46e5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .menu-item {
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px 14px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .menu-item i {
+            font-size: 17px;
+        }
+
+        .profile {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid #374151;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #6366f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .profile strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .profile small {
+            color: #9ca3af;
+            font-size: 11px;
+        }
+
+        .logout-btn {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            color: #fca5a5;
+            text-decoration: none;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #3f1d1d;
+            color: #f87171;
+        }
+
+        .logout-btn i {
+            font-size: 16px;
+        }
+
+        .profile > .bi-three-dots {
+            display: none;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .topbar {
+            height: 78px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        .topbar h4 {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .online {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #16a34a;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .online span {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #e5e7eb;
+            background: white;
+            border-radius: 10px;
+            color: #4b5563;
+            cursor: pointer;
+        }
+
+        .icon-btn:hover {
+            background: #f3f4f6;
+        }
+
+        /* ================= CHAT ================= */
+
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+        }
+
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 35px 8%;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            min-width: 42px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-avatar {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .message-content {
+            max-width: 75%;
+        }
+
+        .message-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 6px;
+        }
+
+        .bubble {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px 16px 16px 16px;
+            padding: 15px 18px;
+            line-height: 1.7;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+
+        /* ================= QUICK ACTIONS ================= */
+
+        .quick-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #6b7280;
+            margin: 25px 0 12px;
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-left: 54px;
+            margin-bottom: 25px;
+        }
+
+        .quick-actions button {
+            border: 1px solid #e0e7ff;
+            background: white;
+            color: #374151;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .quick-actions button:hover {
+            background: #eef2ff;
+            color: #4f46e5;
+            border-color: #c7d2fe;
+            transform: translateY(-2px);
+        }
+
+        .quick-actions i {
+            color: #4f46e5;
+            margin-right: 5px;
+        }
+
+        /* ================= INPUT ================= */
+
+        .input-wrapper {
+            padding: 15px 8% 8px;
+            background: #f5f7fb;
+        }
+
+        .input-area {
+            background: white;
+            border: 1px solid #dfe3eb;
+            border-radius: 15px;
+            padding: 8px 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.04);
+        }
+
+        .attach-btn {
+            width: 38px;
+            height: 38px;
+            border: none;
+            background: transparent;
+            color: #6b7280;
+            font-size: 18px;
+        }
+
+        .attach-btn:hover {
+            color: #4f46e5;
+        }
+
+        #message {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            padding: 10px;
+            background: transparent;
+        }
+
+        #message::placeholder {
+            color: #9ca3af;
+        }
+
+        .send-btn {
+            width: 42px;
+            height: 42px;
+            border: none;
+            border-radius: 11px;
+            background: #4f46e5;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .send-btn:hover {
+            background: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        .powered {
+            text-align: center;
+            font-size: 10px;
+            color: #9ca3af;
+            padding: 5px 0 10px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 768px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .chat-box,
+            .input-wrapper {
+                padding-left: 4%;
+                padding-right: 4%;
+            }
+
+            .message-content {
+                max-width: 85%;
+            }
+
+        }
+
+        @media (max-width: 600px) {
+
+            .sidebar {
+                display: none;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .chat-box {
+                padding: 20px 15px;
+            }
+
+            .input-wrapper {
+                padding: 10px 15px;
+            }
+
+            .quick-actions {
+                margin-left: 0;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                <i class="bi bi-robot"></i>
+            </div>
+
+            <span>SmartSupport AI</span>
+
+        </div>
+
+
+        <div class="menu">
+
+            <a href="/dashboard" class="menu-item">
+
+                <i class="bi bi-grid"></i>
+
+                Dashboard
+
+            </a>
+
+
+            <a href="#" class="menu-item active">
+
+                <i class="bi bi-chat-dots"></i>
+
+                AI Chat
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="bi bi-box-seam"></i>
+
+                Orders
+
+            </a>
+
+
+            <a href="/my-tickets" class="menu-item">
+
+                <i class="bi bi-ticket-perforated"></i>
+
+                My Tickets
+
+            </a>
+
+
+            <a href="#" class="menu-item">
+
+                <i class="bi bi-gear"></i>
+
+                Settings
+
+            </a>
+
+        </div>
+
+
+        <div class="profile">
+
+            <div class="profile-avatar">
+                {{ session['username'][0]|upper }}
+            </div>
+
+            <div>
+
+                <strong>
+                    {{ session['username'] }}
+                </strong>
+
+                <small>
+                    Customer
+                </small>
+
+            </div>
+
+            <a href="/logout" class="logout-btn">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Logout</span>
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div>
+
+                <h4>
+                    AI Customer Support
+                </h4>
+
+                <div class="online">
+
+                    <span></span>
+
+                    SmartSupport AI Online
+
+                </div>
+
+            </div>
+
+
+            <div class="top-actions">
+
+                <button class="icon-btn">
+
+                    <i class="bi bi-bell"></i>
+
+                </button>
+
+
+                <button
+                    class="icon-btn"
+                    onclick="toggleTheme()">
+
+                    <i class="bi bi-moon"></i>
+
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CHAT AREA ================= -->
+
+        <section class="chat-area">
+
+
+            <div id="chat-box" class="chat-box">
+
+
+                <!-- AI WELCOME -->
+
+                <div class="message ai-message">
+
+                    <div class="avatar ai-avatar">
+
+                        <i class="bi bi-robot"></i>
+
+                    </div>
+
+
+                    <div class="message-content">
+
+                        <div class="message-name">
+                            SmartSupport AI
+                        </div>
+
+
+                        <div class="bubble">
+
+                            👋 Hello! I'm SmartSupport AI.
+
+                            <br>
+
+                            I can help you with orders, refunds,
+                            delivery, payments and support tickets.
+
+                            <br><br>
+
+                            How can I help you today?
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- QUICK ACTIONS -->
+
+                <div class="quick-title">
+                    Quick Actions
+                </div>
+
+
+                <div class="quick-actions">
+
+                    <button onclick="quickMessage('Track my order')">
+
+                        <i class="bi bi-box-seam"></i>
+
+                        Track Order
+
+                    </button>
+
+
+                    <button onclick="quickMessage('I want a refund')">
+
+                        <i class="bi bi-arrow-counterclockwise"></i>
+
+                        Refund
+
+                    </button>
+
+
+                    <button onclick="quickMessage('I want to cancel my order')">
+
+                        <i class="bi bi-x-circle"></i>
+
+                        Cancel Order
+
+                    </button>
+
+
+                    <button onclick="quickMessage('I need help')">
+
+                        <i class="bi bi-headset"></i>
+
+                        Support
+
+                    </button>
+
+
+                    <button onclick="quickMessage('refund policy')">
+
+                        <i class="bi bi-cash-stack"></i>
+
+                        Refund Policy
+
+                    </button>
+
+
+                    <button onclick="quickMessage('delivery time')">
+
+                        <i class="bi bi-truck"></i>
+
+                        Delivery Time
+
+                    </button>
+
+
+                    <button onclick="quickMessage('payment methods')">
+
+                        <i class="bi bi-credit-card"></i>
+
+                        Payment Methods
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- INPUT -->
+
+            <div class="input-wrapper">
+
+                <div class="input-area">
+
+                    <button class="attach-btn">
+
+                        <i class="bi bi-paperclip"></i>
+
+                    </button>
+
+
+                    <input
+                        type="text"
+                        id="message"
+                        placeholder="Ask SmartSupport AI anything..."
+                        onkeydown="handleEnter(event)">
+
+
+                    <button
+                        class="send-btn"
+                        onclick="sendMessage()">
+
+                        <i class="bi bi-send-fill"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="powered">
+
+                Powered by SmartSupport AI • AI Customer Support
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+<style>
+
+.typing-dot {
+    animation: typing 1.4s infinite;
+    display: inline-block;
+    font-size: 10px;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+
+    0%, 60%, 100% {
+        opacity: 0.3;
+        transform: translateY(0);
+    }
+
+    30% {
+        opacity: 1;
+        transform: translateY(-3px);
+    }
+
+}
+
+</style>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

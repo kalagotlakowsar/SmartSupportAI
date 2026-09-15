@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>User Management - SmartSupport AI</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: 'Poppins', sans-serif;
+        background: #f5f7fb;
+        color: #1f2937;
+        animation: pageFade 0.6s ease;
+    }
+
+
+    /* ================= ANIMATIONS ================= */
+
+    @keyframes pageFade {
+
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+
+    }
+
+
+    @keyframes slideLeft {
+
+        from {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+    }
+
+
+    @keyframes slideUp {
+
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    }
+
+
+    @keyframes slideDown {
+
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    }
+
+
+    /* ================= SIDEBAR ================= */
+
+    .sidebar {
+        width: 250px;
+        min-height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background: #111827;
+        color: white;
+        padding: 25px 18px;
+        display: flex;
+        flex-direction: column;
+
+        animation: slideLeft 0.6s ease;
+    }
+
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 35px;
+
+        transition: transform 0.3s ease;
+    }
+
+
+    .brand:hover {
+        transform: translateX(5px);
+    }
+
+
+    .brand-icon {
+        width: 40px;
+        height: 40px;
+        background: #4f46e5;
+        border-radius: 11px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+
+    .brand:hover .brand-icon {
+        transform: rotate(8deg) scale(1.08);
+        box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+    }
+
+
+    .menu-title {
+        color: #6b7280;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin: 15px 10px 10px;
+    }
+
+
+    .nav-link {
+        color: #cbd5e1;
+        text-decoration: none;
+
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+        padding: 12px 14px;
+
+        border-radius: 10px;
+        margin-bottom: 5px;
+
+        font-size: 13px;
+
+        transition:
+            background 0.3s ease,
+            color 0.3s ease,
+            transform 0.3s ease;
+    }
+
+
+    .nav-link:hover {
+        background: #1f2937;
+        color: white;
+        transform: translateX(5px);
+    }
+
+
+    .nav-link.active {
+        background: #4f46e5;
+        color: white;
+    }
+
+
+    .nav-link.active:hover {
+        background: #4338ca;
+    }
+
+
+    .nav-link i {
+        font-size: 17px;
+
+        transition: transform 0.3s ease;
+    }
+
+
+    .nav-link:hover i {
+        transform: scale(1.15);
+    }
+
+
+    .logout {
+        margin-top: auto;
+        color: #f87171;
+    }
+
+
+    .logout:hover {
+        background: #3f1d1d;
+        color: #fca5a5;
+    }
+
+
+    /* ================= MAIN ================= */
+
+    .main {
+        margin-left: 250px;
+        min-height: 100vh;
+    }
+
+
+    .topbar {
+        height: 75px;
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        padding: 0 30px;
+
+        animation: slideDown 0.6s ease;
+    }
+
+
+    .page-title {
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+
+    .top-right {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+
+    /* ================= NOTIFICATION ================= */
+
+    .notification {
+        width: 40px;
+        height: 40px;
+
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+
+        background: white;
+        color: #6b7280;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease,
+            color 0.3s ease;
+    }
+
+
+    .notification:hover {
+        transform: translateY(-3px);
+        color: #4f46e5;
+
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+
+    /* ================= ADMIN ================= */
+
+    .admin-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+
+    .admin-info strong {
+        font-size: 13px;
+    }
+
+
+    .admin-info small {
+        font-size: 10px;
+    }
+
+
+    .admin-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+
+        background: #4f46e5;
+        color: white;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+    .admin-avatar {
+    overflow: hidden;
+}
+
+.admin-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+
+    .admin-avatar:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+    }
+
+
+    /* ================= CONTENT ================= */
+
+    .content {
+        padding: 30px;
+    }
+
+
+    .page-header {
+        margin-bottom: 25px;
+        animation: slideUp 0.5s ease;
+    }
+
+
+    .page-header h2 {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+
+    .page-header p {
+        color: #6b7280;
+        font-size: 13px;
+        margin: 0;
+    }
+
+
+    /* ================= SUMMARY ================= */
+
+    .summary-card {
+        background: white;
+
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+
+        padding: 20px;
+        height: 100%;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+
+        animation: slideUp 0.7s ease both;
+    }
+
+
+    .summary-card:hover {
+        transform: translateY(-7px);
+
+        box-shadow:
+            0 15px 30px rgba(0, 0, 0, 0.08);
+    }
+
+
+    .summary-icon {
+        width: 45px;
+        height: 45px;
+
+        border-radius: 12px;
+
+        background: #eef2ff;
+        color: #4f46e5;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 20px;
+        margin-bottom: 12px;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+
+    .summary-card:hover .summary-icon {
+        transform: rotate(8deg) scale(1.1);
+
+        box-shadow:
+            0 5px 15px rgba(79, 70, 229, 0.15);
+    }
+
+
+    .summary-number {
+        font-size: 25px;
+        font-weight: 700;
+
+        transition: transform 0.3s ease;
+    }
+
+
+    .summary-card:hover .summary-number {
+        transform: scale(1.08);
+    }
+
+
+    .summary-label {
+        font-size: 12px;
+        color: #6b7280;
+    }
+
+
+    /* ================= USER TABLE ================= */
+
+    .user-card {
+        background: white;
+
+        border: 1px solid #e5e7eb;
+        border-radius: 16px;
+
+        overflow: hidden;
+        margin-top: 25px;
+
+        animation: slideUp 0.9s ease;
+
+        transition:
+            box-shadow 0.3s ease;
+    }
+
+
+    .user-card:hover {
+        box-shadow:
+            0 15px 35px rgba(0, 0, 0, 0.07);
+    }
+
+
+    .table-header {
+        padding: 20px 22px;
+
+        border-bottom: 1px solid #e5e7eb;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+
+    .table-header h5 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 600;
+    }
+
+
+    .user-count {
+        font-size: 11px;
+        color: #6b7280;
+    }
+
+
+    .table {
+        margin-bottom: 0;
+    }
+
+
+    .table th {
+        background: #f9fafb;
+
+        color: #6b7280;
+
+        font-size: 11px;
+        font-weight: 600;
+
+        padding: 15px 20px;
+
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+
+    .table td {
+        padding: 16px 20px;
+
+        vertical-align: middle;
+
+        font-size: 13px;
+
+        border-bottom: 1px solid #f1f5f9;
+
+        transition: background 0.3s ease;
+    }
+
+
+    .table tbody tr {
+        transition:
+            transform 0.25s ease,
+            background 0.25s ease;
+    }
+
+
+    .table tbody tr:hover {
+        background: #fafbff;
+
+        transform: scale(1.005);
+    }
+
+
+    .table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+
+    /* ================= USER ================= */
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+
+    .user-avatar {
+        width: 38px;
+        height: 38px;
+
+        border-radius: 50%;
+
+        background: #eef2ff;
+        color: #4f46e5;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: 600;
+        font-size: 13px;
+
+        transition:
+            transform 0.3s ease,
+            box-shadow 0.3s ease;
+    }
+
+    .user-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    tr:hover .user-avatar {
+        transform: scale(1.12);
+
+        box-shadow:
+            0 5px 12px rgba(79, 70, 229, 0.15);
+    }
+
+
+    .username {
+        font-weight: 600;
+    }
+
+
+    .user-subtitle {
+        color: #9ca3af;
+        font-size: 10px;
+    }
+
+
+    /* ================= ROLE ================= */
+
+    .role {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+
+        padding: 6px 11px;
+
+        border-radius: 20px;
+
+        font-size: 10px;
+        font-weight: 500;
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+
+
+    .role:hover {
+        transform: scale(1.06);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    }
+
+
+    .admin {
+        background: #ede9fe;
+        color: #6d28d9;
+    }
+
+
+    .agent {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+
+    .customer {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+
+    /* ================= EMPTY ================= */
+
+    .empty {
+        text-align: center;
+        padding: 50px 20px;
+        color: #9ca3af;
+
+        animation: pageFade 0.7s ease;
+    }
+
+
+    .empty i {
+        font-size: 35px;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+
+    /* ================= RESPONSIVE ================= */
+
+    @media (max-width: 768px) {
+
+        .sidebar {
+            width: 210px;
+        }
+
+        .main {
+            margin-left: 210px;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .sidebar {
+            display: none;
+        }
+
+        .main {
+            margin-left: 0;
+        }
+
+        .content {
+            padding: 15px;
+        }
+
+        .topbar {
+            padding: 0 15px;
+        }
+
+        .admin-info > div:first-child {
+            display: none;
+        }
+
+        .table {
+            min-width: 650px;
+        }
+
+    }
+    /* Search Box */
+
+.search-box {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+    width: 100%;
+    max-width: 650px;
+}
+
+.search-input {
+    position: relative;
+    flex: 1;
+}
+
+.search-input i.bi-search {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #888;
+}
+
+.search-input input {
+    width: 100%;
+    padding: 13px 45px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    outline: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.search-input input:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.12);
+}
+
+.clear-search {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.clear-search:hover {
+    color: #333;
+}
+
+.search-btn {
+    border: none;
+    padding: 0 22px;
+    border-radius: 12px;
+    background: #6c63ff;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.search-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(108, 99, 255, 0.25);
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+
+    .search-box {
+        flex-direction: column;
+    }
+
+    .search-btn {
+        padding: 13px;
+    }
+}
+.role-filter {
+    padding: 13px 40px 13px 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: white;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.role-filter:focus {
+    border-color: #6c63ff;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.12);
+}
+
+.role-filter:hover {
+    border-color: #6c63ff;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            <i class="bi bi-robot"></i>
+        </div>
+
+        SmartSupport AI
+
+    </div>
+
+
+    <div class="menu-title">
+        Main Menu
+    </div>
+
+
+    <a href="/dashboard"
+       class="nav-link">
+
+        <i class="bi bi-grid"></i>
+        Dashboard
+
+    </a>
+
+
+    <a href="/tickets"
+       class="nav-link">
+
+        <i class="bi bi-ticket-perforated"></i>
+        Tickets
+
+    </a>
+
+
+    <a href="/analytics"
+       class="nav-link">
+
+        <i class="bi bi-bar-chart"></i>
+        Analytics
+
+    </a>
+
+
+    <a href="/agent-dashboard"
+       class="nav-link">
+
+        <i class="bi bi-headset"></i>
+        Agent Dashboard
+
+    </a>
+
+
+    <a href="/users"
+       class="nav-link active">
+
+        <i class="bi bi-people"></i>
+        User Management
+
+    </a>
+
+
+    <div class="menu-title">
+        System
+    </div>
+
+
+    <a href="/settings"
+       class="nav-link">
+
+        <i class="bi bi-gear"></i>
+        Settings
+
+    </a>
+
+
+    <a href="/logout"
+       class="nav-link logout">
+
+        <i class="bi bi-box-arrow-right"></i>
+        Logout
+
+    </a>
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="page-title">
+            User Management
+        </div>
+
+
+        <div class="top-right">
+
+            <button class="notification">
+
+                <i class="bi bi-bell"></i>
+
+            </button>
+
+
+            <div class="admin-info">
+
+                <div>
+
+                    <strong>
+                        Admin
+                    </strong>
+
+                    <br>
+
+                    <small class="text-muted">
+                        Administrator
+                    </small>
+
+                </div>
+
+
+                <div class="admin-avatar">
+
+                    {% if profile_picture %}
+
+                        <img
+                            src="{{ url_for('static', filename='uploads/' + profile_picture) }}"
+                            alt="Profile Picture">
+
+                    {% else %}
+
+                        <i class="bi bi-person"></i>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <div class="content">
+
+
+        <div class="page-header">
+
+            <h2>
+                Users
+            </h2>
+
+            <p>
+                Manage and monitor users registered in SmartSupport AI.
+            </p>
+
+        </div>
+
+        <form method="GET" action="/users" class="search-box">
+
+            <div class="search-input">
+                <i class="bi bi-search"></i>
+
+                <input
+                    type="text"
+                    name="search"
+                    placeholder="Search username or role..."
+                    value="{{ search }}"
+                >
+
+                {% if search %}
+                <a href="/users" class="clear-search">
+                    <i class="bi bi-x"></i>
+                </a>
+                {% endif %}
+            </div>
+
+            <select name="role" class="role-filter">
+                <option value="">All Roles</option>
+
+                <option value="Admin"
+                    {% if role == "Admin" %}selected{% endif %}>
+                    Admin
+                </option>
+
+                <option value="Support Agent"
+                    {% if role == "Support Agent" %}selected{% endif %}>
+                    Support Agent
+                </option>
+
+                <option value="Customer"
+                    {% if role == "Customer" %}selected{% endif %}>
+                    Customer
+                </option>
+            </select>
+
+            <button type="submit" class="search-btn">
+                <i class="bi bi-funnel"></i>
+                Filter
+            </button>
+
+        </form>
+
+        <br>
+
+        <!-- ================= SUMMARY ================= -->
+
+        <div class="row g-4">
+
+
+            <div class="col-md-4">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon">
+
+                        <i class="bi bi-people"></i>
+
+                    </div>
+
+                    <div class="summary-number">
+                        {{ users|length }}
+                    </div>
+
+                    <div class="summary-label">
+                        Total Users
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon">
+
+                        <i class="bi bi-shield-check"></i>
+
+                    </div>
+
+                    <div class="summary-number">
+
+                        {% set admin_count = users|selectattr("2", "equalto", "Admin")|list|length %}
+
+                        {{ admin_count }}
+
+                    </div>
+
+                    <div class="summary-label">
+                        Administrators
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-4">
+
+                <div class="summary-card">
+
+                    <div class="summary-icon">
+
+                        <i class="bi bi-headset"></i>
+
+                    </div>
+
+                    <div class="summary-number">
+
+                        {% set agent_count = users|selectattr("2", "equalto", "Support Agent")|list|length %}
+
+                        {{ agent_count }}
+
+                    </div>
+
+                    <div class="summary-label">
+                        Support Agents
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ================= USER TABLE ================= -->
+
+        <div class="user-card">
+
+
+            <div class="table-header">
+
+                <h5>
+                    Registered Users
+                </h5>
+
+                <span class="user-count">
+                    {{ users|length }} users
+                </span>
+
+            </div>
+
+
+            <div class="table-responsive">
+
+                <table class="table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                ID
+                            </th>
+
+                            <th>
+                                USER
+                            </th>
+
+                            <th>
+                                ROLE
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                            <th>
+                                ACTIONS
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+{% for user in users %}
+
+<tr>
+
+    <td>
+        <strong>#{{ user[0] }}</strong>
+    </td>
+
+    <td>
+
+        <div class="user-info">
+
+            <div class="user-avatar">
+
+                {% if user[3] %}
+
+                    <img
+                        src="{{ url_for('static', filename='uploads/' + user[3]) }}"
+                        alt="Profile Picture">
+
+                {% else %}
+
+                    {{ user[1][0]|upper }}
+
+                {% endif %}
+
+            </div>
+
+            <div>
+
+                <div class="username">
+                    {{ user[1] }}
+                </div>
+
+                <div class="user-subtitle">
+                    SmartSupport User
+                </div>
+
+            </div>
+
+        </div>
+
+    </td>
+
+    <td>
+
+        {% if user[2] == "Admin" %}
+
+            <span class="role admin">
+                <i class="bi bi-shield-fill-check"></i>
+                Admin
+            </span>
+
+        {% elif user[2] == "Support Agent" %}
+
+            <span class="role agent">
+                <i class="bi bi-headset"></i>
+                Support Agent
+            </span>
+
+        {% else %}
+
+            <span class="role customer">
+                <i class="bi bi-person-check"></i>
+                Customer
+            </span>
+
+        {% endif %}
+
+    </td>
+
+    <td>
+
+        <span class="role customer">
+
+            <i class="bi bi-circle-fill"
+               style="font-size:6px;"></i>
+
+            Active
+
+        </span>
+
+    </td>
+
+    <td>
+
+    <!-- View User -->
+    <a href="/user/{{ user[0] }}"
+       class="btn btn-sm btn-outline-info">
+
+        <i class="bi bi-eye"></i>
+
+    </a>
+
+    <!-- Edit User -->
+    <a href="/edit-user/{{ user[0] }}"
+       class="btn btn-sm btn-outline-primary">
+
+        <i class="bi bi-pencil"></i>
+
+    </a>
+
+    <!-- Delete User -->
+    <a href="/delete-user/{{ user[0] }}"
+       class="btn btn-sm btn-outline-danger"
+       onclick="return confirm('Delete this user?')">
+
+        <i class="bi bi-trash"></i>
+
+    </a>
+
+</td>
+
+</tr>
+
+{% else %}
+
+<tr>
+
+    <td colspan="5">
+
+        <div class="empty">
+
+            <i class="bi bi-people"></i>
+
+            No users found.
+
+        </div>
+
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+</body>
+
+</html>

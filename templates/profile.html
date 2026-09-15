@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - SmartSupport AI</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fb;
+    color: #1f2937;
+}
+
+
+/* ================= SIDEBAR ================= */
+
+.sidebar {
+    width: 250px;
+    min-height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #111827;
+    color: white;
+    padding: 25px 18px;
+    display: flex;
+    flex-direction: column;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 35px;
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+    background: #4f46e5;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-title {
+    color: #6b7280;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 15px 10px 10px;
+}
+
+.nav-link {
+    color: #cbd5e1;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: #4f46e5;
+    color: white;
+}
+
+.nav-link i {
+    font-size: 17px;
+}
+
+.logout {
+    margin-top: auto;
+    color: #f87171;
+}
+
+
+/* ================= MAIN ================= */
+
+.main {
+    margin-left: 250px;
+    min-height: 100vh;
+}
+
+
+/* ================= TOPBAR ================= */
+
+.topbar {
+    height: 75px;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.top-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.notification {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: white;
+    color: #6b7280;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-info strong {
+    font-size: 13px;
+}
+
+.user-info small {
+    font-size: 10px;
+}
+
+
+/* TOPBAR PROFILE IMAGE */
+
+.user-avatar-small {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #4f46e5;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-avatar-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* ================= CONTENT ================= */
+
+.content {
+    padding: 30px;
+}
+
+.page-header {
+    margin-bottom: 25px;
+}
+
+.page-header h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.page-header p {
+    color: #6b7280;
+    font-size: 13px;
+}
+
+
+/* ================= PROFILE CARD ================= */
+
+.profile-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.profile-cover {
+    height: 130px;
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
+}
+
+.profile-main {
+    padding: 0 30px 30px;
+    position: relative;
+}
+
+
+/* PROFILE IMAGE */
+
+.profile-avatar {
+    width: 105px;
+    height: 105px;
+    margin-top: -52px;
+    border: 5px solid white;
+    border-radius: 50%;
+    background: #eef2ff;
+    color: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    overflow: hidden;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* CAMERA BUTTON */
+
+.camera-btn {
+    position: absolute;
+    left: 105px;
+    top: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #4f46e5;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 3px solid white;
+}
+
+.camera-btn:hover {
+    background: #4338ca;
+}
+
+.camera-btn i {
+    font-size: 13px;
+}
+
+
+/* PROFILE NAME */
+
+.profile-name {
+    font-size: 21px;
+    font-weight: 600;
+    margin-top: 15px;
+}
+
+.profile-role {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 5px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #dcfce7;
+    color: #15803d;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+
+/* ================= CARDS ================= */
+
+.card-box {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 25px;
+    height: 100%;
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 22px;
+}
+
+.card-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #eef2ff;
+    color: #4f46e5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* ================= FORM ================= */
+
+.form-label {
+    font-size: 11px;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.form-control {
+    border-radius: 9px;
+    border: 1px solid #dbe1ea;
+    padding: 10px 12px;
+    font-size: 12px;
+}
+
+.form-control:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+
+/* ================= BUTTON ================= */
+
+.update-btn {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.update-btn:hover {
+    background: #4338ca;
+}
+
+
+/* ================= ACCOUNT INFO ================= */
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: #6b7280;
+    font-size: 11px;
+}
+
+.info-value {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status {
+    background: #dcfce7;
+    color: #15803d;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+}
+
+
+/* ================= PASSWORD ================= */
+
+.password-note {
+    font-size: 10px;
+    color: #6b7280;
+    margin-top: 6px;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+
+    .sidebar {
+        width: 210px;
+    }
+
+    .main {
+        margin-left: 210px;
+    }
+
+    .content {
+        padding: 20px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .sidebar {
+        display: none;
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    .topbar {
+        padding: 0 15px;
+    }
+
+    .user-info > div:first-child {
+        display: none;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            <i class="bi bi-robot"></i>
+        </div>
+
+        SmartSupport AI
+
+    </div>
+
+
+    <div class="menu-title">
+        Customer
+    </div>
+
+
+    <a href="/chat" class="nav-link">
+
+        <i class="bi bi-chat-dots"></i>
+
+        Chat Support
+
+    </a>
+
+
+    <a href="/my-tickets" class="nav-link">
+
+        <i class="bi bi-ticket-perforated"></i>
+
+        My Tickets
+
+    </a>
+
+
+    <a href="/profile" class="nav-link active">
+
+        <i class="bi bi-person"></i>
+
+        My Profile
+
+    </a>
+
+
+    <div class="menu-title">
+        Account
+    </div>
+
+
+    <a href="/settings" class="nav-link">
+
+        <i class="bi bi-gear"></i>
+
+        Settings
+
+    </a>
+
+
+    <a href="/logout" class="nav-link logout">
+
+        <i class="bi bi-box-arrow-right"></i>
+
+        Logout
+
+    </a>
+
+
+</aside>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+
+        <div class="page-title">
+            My Profile
+        </div>
+
+
+        <div class="top-right">
+
+
+            <button class="notification">
+
+                <i class="bi bi-bell"></i>
+
+            </button>
+
+
+            <div class="user-info">
+
+
+                <div>
+
+                    <strong>
+                        {{ username }}
+                    </strong>
+
+                    <br>
+
+                    <small class="text-muted">
+                        {{ role }}
+                    </small>
+
+                </div>
+
+
+                <div class="user-avatar-small">
+
+                    {% if profile_picture %}
+
+                        <img
+                            src="{{ url_for('static', filename='uploads/' + profile_picture) }}">
+
+                    {% else %}
+
+                        <i class="bi bi-person"></i>
+
+                    {% endif %}
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </header>
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <div class="content">
+
+
+        <div class="page-header">
+
+            <h2>
+                My Profile
+            </h2>
+
+            <p>
+                Manage your SmartSupport AI account information.
+            </p>
+
+        </div>
+
+
+        <!-- ================= PROFILE HEADER ================= -->
+
+        <div class="profile-card">
+
+
+            <div class="profile-cover"></div>
+
+
+            <div class="profile-main">
+
+
+                <div class="profile-avatar"
+                     id="profilePreview">
+
+
+                    {% if profile_picture %}
+
+                        <img
+                            src="{{ url_for('static', filename='uploads/' + profile_picture) }}">
+
+                    {% else %}
+
+                        <i class="bi bi-person"></i>
+
+                    {% endif %}
+
+
+                </div>
+
+
+                <!-- CAMERA -->
+
+                <label
+                    for="profile_picture"
+                    class="camera-btn">
+
+                    <i class="bi bi-camera"></i>
+
+                </label>
+
+
+                <div class="profile-name">
+                    {{ username }}
+                </div>
+
+
+                <div class="profile-role">
+
+                    <i class="bi bi-person-check"></i>
+
+                    {{ role }}
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ================= EDIT + ACCOUNT ================= -->
+
+        <div class="row g-4">
+
+
+            <!-- EDIT PROFILE -->
+
+            <div class="col-lg-7">
+
+
+                <div class="card-box">
+
+
+                    <div class="card-title">
+
+                        <div class="card-icon">
+
+                            <i class="bi bi-pencil-square"></i>
+
+                        </div>
+
+                        Edit Profile
+
+                    </div>
+
+
+                    <form
+                        method="POST"
+                        action="/update-profile"
+                        enctype="multipart/form-data">
+
+
+                        <!-- PROFILE PICTURE -->
+
+                        <div class="mb-3">
+
+
+                            <label class="form-label">
+
+                                Profile Picture
+
+                            </label>
+
+
+                            <input
+                                type="file"
+                                name="profile_picture"
+                                id="profile_picture"
+                                class="form-control"
+                                accept="image/*"
+                                onchange="previewImage(event)">
+
+
+                            <div class="password-note">
+
+                                JPG, PNG or other image formats.
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- USERNAME -->
+
+                        <div class="mb-3">
+
+
+                            <label class="form-label">
+
+                                Username
+
+                            </label>
+
+
+                            <input
+                                type="text"
+                                name="username"
+                                class="form-control"
+                                value="{{ username }}"
+                                required>
+
+
+                        </div>
+
+
+                        <!-- EMAIL -->
+
+                        <div class="mb-3">
+
+
+                            <label class="form-label">
+
+                                Email Address
+
+                            </label>
+
+
+                            <input
+                                type="email"
+                                name="email"
+                                class="form-control"
+                                value="{{ email or '' }}"
+                                placeholder="Enter your email"
+                                required>
+
+
+                        </div>
+
+
+                        <!-- PHONE -->
+
+                        <div class="mb-3">
+
+
+                            <label class="form-label">
+
+                                Phone Number
+
+                            </label>
+
+
+                            <input
+                                type="tel"
+                                name="phone"
+                                class="form-control"
+                                value="{{ phone or '' }}"
+                                placeholder="Enter your phone number"
+                                required>
+
+
+                        </div>
+
+
+                        <!-- PASSWORD -->
+
+                        <div class="mb-3">
+
+
+                            <label class="form-label">
+
+                                New Password
+
+                            </label>
+
+
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control"
+                                placeholder="Leave blank to keep current password">
+
+
+                            <div class="password-note">
+
+                                Leave blank if you don't want to change
+                                your password.
+
+                            </div>
+
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            class="update-btn">
+
+                            <i class="bi bi-check-circle me-1"></i>
+
+                            Save Changes
+
+                        </button>
+
+
+                    </form>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- ACCOUNT INFORMATION -->
+
+            <div class="col-lg-5">
+
+
+                <div class="card-box">
+
+
+                    <div class="card-title">
+
+                        <div class="card-icon">
+
+                            <i class="bi bi-person-vcard"></i>
+
+                        </div>
+
+                        Account Information
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            User ID
+                        </span>
+
+                        <span class="info-value">
+                            #{{ user_id }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Username
+                        </span>
+
+                        <span class="info-value">
+                            {{ username }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Email
+                        </span>
+
+                        <span class="info-value">
+                            {{ email or 'Not added' }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Phone
+                        </span>
+
+                        <span class="info-value">
+                            {{ phone or 'Not added' }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Role
+                        </span>
+
+                        <span class="info-value">
+                            {{ role }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="info-row">
+
+                        <span class="info-label">
+                            Account Status
+                        </span>
+
+                        <span class="info-value">
+
+                            <span class="status">
+
+                                <i
+                                    class="bi bi-circle-fill"
+                                    style="font-size:6px;">
+                                </i>
+
+                                Active
+
+                            </span>
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+<script>
+
+
+function previewImage(event) {
+
+    const file =
+        event.target.files[0];
+
+    if (!file) {
+        return;
+    }
+
+    const reader =
+        new FileReader();
+
+    reader.onload = function(e) {
+
+        const preview =
+            document.getElementById(
+                "profilePreview"
+            );
+
+        preview.innerHTML = `
+            <img
+                src="${e.target.result}"
+                style="
+                    width:100%;
+                    height:100%;
+                    object-fit:cover;
+                ">
+        `;
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+</script>
+
+
+</body>
+
+</html>
